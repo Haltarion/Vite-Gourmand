@@ -3,7 +3,7 @@
 /**
  * Script d'initialisation de la base de données
  * Crée la base de données et exécute les scripts SQL
- * 
+ *
  * Usage: php database-init.php
  */
 
@@ -61,23 +61,6 @@ try {
         echo "✅ Schema créé avec succès\n\n";
     } else {
         throw new Exception("Erreur lors de l'exécution du schema: " . $mysqli->error);
-    }
-
-    // Exécuter le script seed.sql
-    echo "Exécution du script seed.sql...\n";
-    $seedFile = __DIR__ . '/sql/seed.sql';
-    if (file_exists($seedFile)) {
-        $seed = file_get_contents($seedFile);
-        if ($mysqli->multi_query($seed)) {
-            while ($mysqli->more_results()) {
-                $mysqli->next_result();
-            }
-            echo "✅ Données de base insérées\n\n";
-        } else {
-            echo "⚠️  Avertissement lors de l'exécution du seed: " . $mysqli->error . "\n\n";
-        }
-    } else {
-        echo "⚠️  Fichier seed.sql non trouvé\n\n";
     }
 
     $mysqli->close();

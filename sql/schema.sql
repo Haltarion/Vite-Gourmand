@@ -1,12 +1,4 @@
-CREATE TABLE roles (
-    role_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    libelle VARCHAR(50) NOT NULL
-
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
     nom VARCHAR(50) NOT NULL,
@@ -17,19 +9,18 @@ CREATE TABLE users (
     commune VARCHAR(50) NOT NULL,
     code_postal VARCHAR(10) NOT NULL,
     email VARCHAR(180) NOT NULL,
+    user_role ENUM('USER', 'EMPLOYE', 'ADMIN') NOT NULL DEFAULT 'USER',
 
-    user_role INT UNSIGNED NOT NULL,
     is_active TINYINT(1) NOT NULL DEFAULT 1,
 
     UNIQUE KEY uniq_users_email (email),
-
-    CONSTRAINT fk_users_role
-        FOREIGN KEY (user_role) REFERENCES roles(role_id)
+    CONSTRAINT chk_user_role
+        CHECK (user_role IN ('USER', 'EMPLOYE', 'ADMIN'))
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE themes (
+CREATE TABLE IF NOT EXISTS themes (
     theme_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 
@@ -37,7 +28,7 @@ CREATE TABLE themes (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE regimes (
+CREATE TABLE IF NOT EXISTS regimes (
     regime_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 
@@ -45,7 +36,7 @@ CREATE TABLE regimes (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE allergenes (
+CREATE TABLE IF NOT EXISTS allergenes (
     allergene_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 
@@ -53,7 +44,7 @@ CREATE TABLE allergenes (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE plats (
+CREATE TABLE IF NOT EXISTS plats (
     plat_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     titre_plat VARCHAR (100) NOT NULL,
     photo_url VARCHAR(255) NULL,
@@ -63,7 +54,7 @@ CREATE TABLE plats (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE liste_allergenes (
+CREATE TABLE IF NOT EXISTS liste_allergenes (
     liste_allergenes_plat INT UNSIGNED NOT NULL,
     liste_allergenes_allergene INT UNSIGNED NOT NULL,
 
@@ -76,7 +67,7 @@ CREATE TABLE liste_allergenes (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE menus (
+CREATE TABLE IF NOT EXISTS menus (
     menu_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     menus_theme INT UNSIGNED NOT NULL,
     menus_regime INT UNSIGNED NOT NULL,
@@ -98,7 +89,7 @@ CREATE TABLE menus (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE composition (
+CREATE TABLE IF NOT EXISTS composition (
     composition_menu INT UNSIGNED NOT NULL,
     composition_plat INT UNSIGNED NOT NULL,
 
@@ -111,7 +102,7 @@ CREATE TABLE composition (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE commandes (
+CREATE TABLE IF NOT EXISTS commandes (
     num_commande INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     commandes_user INT UNSIGNED NOT NULL,
     commandes_menu INT UNSIGNED NOT NULL,
@@ -138,7 +129,7 @@ CREATE TABLE commandes (
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE avis (
+CREATE TABLE IF NOT EXISTS avis (
     avis_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     avis_user INT UNSIGNED NOT NULL,
     avis_commande INT UNSIGNED NOT NULL,

@@ -2,25 +2,18 @@
 -- À exécuter pour réinitialiser la base en dernier
 
 -- Suppression dans l'ordre inverse des contraintes de clés étrangères
-DELETE FROM avis;
-DELETE FROM commandes;
-DELETE FROM composition;
-DELETE FROM menus;
-DELETE FROM liste_allergenes;
-DELETE FROM plats;
-DELETE FROM users;
-DELETE FROM allergenes;
-DELETE FROM regimes;
-DELETE FROM themes;
-DELETE FROM roles;
+-- Utilise des comparaisons pour éviter les erreurs si les tables n'existent pas
+SET FOREIGN_KEY_CHECKS = 0;
 
--- Réinitialiser les auto-increment
-ALTER TABLE roles AUTO_INCREMENT = 1;
-ALTER TABLE users AUTO_INCREMENT = 1;
-ALTER TABLE themes AUTO_INCREMENT = 1;
-ALTER TABLE regimes AUTO_INCREMENT = 1;
-ALTER TABLE allergenes AUTO_INCREMENT = 1;
-ALTER TABLE plats AUTO_INCREMENT = 1;
-ALTER TABLE menus AUTO_INCREMENT = 1;
-ALTER TABLE commandes AUTO_INCREMENT = 1;
-ALTER TABLE avis AUTO_INCREMENT = 1;
+TRUNCATE TABLE avis;
+TRUNCATE TABLE commandes;
+TRUNCATE TABLE composition;
+TRUNCATE TABLE menus;
+TRUNCATE TABLE liste_allergenes;
+TRUNCATE TABLE plats;
+TRUNCATE TABLE users;
+TRUNCATE TABLE allergenes;
+TRUNCATE TABLE regimes;
+TRUNCATE TABLE themes;
+
+SET FOREIGN_KEY_CHECKS = 1;
